@@ -77,21 +77,21 @@ class HomePage extends StatelessWidget {
             builder: (context, appState, _) => Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Add from here
+               
                 if (appState.attendees >= 2)
                   Paragraph('${appState.attendees} people going')
                 else if (appState.attendees == 1)
                   Paragraph('1 person going')
                 else
                   Paragraph('No one going'),
-                // To here.
+            
                 if (appState.loginState == ApplicationLoginState.loggedIn) ...[
-                  // Add from here
+          
                   YesNoSelection(
                     state: appState.attending,
                     onSelection: (attending) => appState.attending = attending,
                   ),
-                  // To here.
+                 
                   Header('Discussion'),
                   GuestBook(
                     addMessage: (String message) =>
@@ -116,7 +116,7 @@ class ApplicationState extends ChangeNotifier {
   Future<void> init() async {
     await Firebase.initializeApp();
 
-    // Add from here
+  
     FirebaseFirestore.instance
         .collection('attendees')
         .where('attending', isEqualTo: true)
@@ -125,7 +125,7 @@ class ApplicationState extends ChangeNotifier {
       _attendees = snapshot.docs.length;
       notifyListeners();
     });
-    // To here
+  
 
     FirebaseAuth.instance.userChanges().listen((user) {
       if (user != null) {
@@ -146,7 +146,7 @@ class ApplicationState extends ChangeNotifier {
           });
           notifyListeners();
         });
-        // Add from here
+        
         _attendingSubscription = FirebaseFirestore.instance
             .collection('attendees')
             .doc(user.uid)
@@ -163,12 +163,12 @@ class ApplicationState extends ChangeNotifier {
           }
           notifyListeners();
         });
-        // to here
+       
       } else {
         _loginState = ApplicationLoginState.loggedOut;
         _guestBookMessages = [];
         _guestBookSubscription?.cancel();
-        _attendingSubscription?.cancel(); // new
+        _attendingSubscription?.cancel(); 
       }
       notifyListeners();
     });
